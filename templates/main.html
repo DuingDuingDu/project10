@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkers Main Lobby</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .lobby-container, .form-container {
+            margin: 50px auto;
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        #modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 1200px;
+        }
+    </style>
+    <script th:inline="javascript">
+        // Thymeleaf에서 제공하는 데이터를 안전하게 JavaScript 변수로 초기화
+        var error = /*[[${error}]]*/ 'null';
+        var showLoginModal = /*[[${showLoginModal}]]*/ false;
+        var alertMessage = /*[[${alertMessage}]]*/ 'null';
+
+        // 페이지 로딩 후 모달 및 알림 표시
+        window.onload = function() {
+        	if (showLoginModal === true) {
+        	    openModal('login');
+        	}
+
+
+            if (error !== 'null' && error.trim() !== '') {
+                alert(error);
+            }
+
+            if (alertMessage !== 'null' && alertMessage.trim() !== '') {
+                alert(alertMessage);
+            }
+        }
+
+        // 모달을 여는 함수
+        function openModal(type) {
+            document.getElementById('modal').style.display = 'flex';
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('guest-form').style.display = 'none';
+            document.getElementById('password-recovery-form').style.display = 'none';
+
+            if (type === 'login') {
+                document.getElementById('login-form').style.display = 'block';
+            } else if (type === 'register') {
+                document.getElementById('register-form').style.display = 'block';
+            } else if (type === 'guest') {
+                document.getElementById('guest-form').style.display = 'block';
+            }
+        }
+
+        // 모달을 닫는 함수
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // 비밀번호 찾기 폼을 표시하는 함수
+        function showPasswordRecoveryForm() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('password-recovery-form').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <h1>Checkers Game Lobby</h1>
+    <div class="lobby-container">
+        <button onclick="openModal('login')">로그인</button>
+        <button onclick="openModal('register')">회원가입</button>
+       <!--  <button onclick="openModal('guest')">비회원으로 게임하기</button> -->
+    </div>
+
+    <!-- 모달 창 -->
+    <div id="modal">
+        <div id="modal-content">
+            <span onclick="closeModal()" style="cursor:pointer; float:right;">&times;</span>
+
+            <!-- 로그인 폼 -->
+            <div id="login-form" class="form-container" style="display:none;">
+                <h2>로그인</h2>
+                <form th:action="@{/login}" method="post">
+                   <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" required><br><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br><br>
+                    
+                    <button type="submit">로그인</button>
+                    <button type="button" onclick="showPasswordRecoveryForm()">비밀번호 찾기</button>
+                </form>
+            </div>
+
+            <!-- 비밀번호 찾기 폼 -->
+            <div id="password-recovery-form" class="form-container" style="display:none;">
+                <h2>비밀번호 찾기</h2>
+                <form th:action="@{/recover-password}" th:method="post">
+                  <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="recovery-username" name="username" required><br><br>
+                    <label for="nickname">Nickname:</label><br>
+                    <input type="text" id="nickname" name="nickname" required><br><br>
+                    <label for="new-password">New Password:</label><br>
+                    <input type="password" id="new-password" name="newPassword" required><br><br>
+                    <button type="submit">비밀번호 재설정</button>
+                </form>
+            </div>
+
+            <!-- 회원가입 폼 -->
+            <div id="register-form" class="form-container" style="display:none;">
+                <h2>회원가입</h2>
+                <form th:action="@{/register}" th:method="post">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" required><br><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br><br>
+                    <label for="nickname">Nickname:</label><br>
+                    <input type="text" id="nickname" name="nickname" required><br><br>
+                    <button type="submit">회원가입하기</button>
+                </form>
+            </div>
+
+            <!-- 비회원 닉네임 설정 폼 -->
+           
+            <div id="guest-form" class="form-container" style="display:none;">
+                <h2>닉네임 설정</h2>
+                <form th:action="@{/guest/login}" th:method="post">-->
+                   <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> -->
+                    <label for="guestNickname">Nickname:</label><br>
+                    <input type="text" id="guestNickname" name="nickname" required><br><br>
+                    <button type="submit">닉네임 설정 후 게임 시작하기</button>
+                </form>
+            </div>  
+        </div>
+    </div>
+</body>
+</html>

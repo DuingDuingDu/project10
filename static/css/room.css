@@ -1,0 +1,260 @@
+/* room.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 1500px;
+    height: 1080px;
+    display: flex;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    flex-direction: row;
+}
+
+#left-player-area, #right-player-area {
+    width: 300px;
+    height: 1080px;
+    background-color: #dcdcdc;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+
+#left-player-area {
+    border-right: 2px solid #ccc;
+}
+
+#right-player-area {
+    border-left: 2px solid #ccc;
+}
+
+#game-area {
+    width: 900px;
+    height: 1080px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#game-board {
+    width: 900px;
+    height: 900px;
+    background-color: white;
+    border: 1px solid #000;
+    position: relative;
+     flex: 1;
+}
+
+#chatbox {
+    width: 900px;
+    height: 180px;
+    background-color: #eaeaea;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding-right: 10px;
+}
+
+#chat-input {
+    flex: 0;
+    padding: 5px;
+    font-size: 16px;
+    width: calc(100% - 60px);
+    box-sizing: border-box;
+}
+
+#send-button {
+    width: 50px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#user-info h2, #opponent-info h2 {
+    margin-top: 0;
+}
+
+.room-info {
+    margin-bottom: 20px;
+}
+
+.room-info p {
+    margin: 5px 0;
+}
+
+.room-info button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* Could be more or less, depending on screen size */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* 방 목록 스타일 */
+.room-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.room {
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.room:hover {
+    background-color: #f0f0f0;
+}
+
+/* 버튼 스타일 */
+.partition-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.partition-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.partition-button:hover {
+    background-color: #45a049;
+}
+
+/* 채팅 섹션 스타일 */
+.chat-section {
+    width: 100%;
+}
+
+.chat-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.chat-box h3 {
+    margin-top: 0;
+}
+
+.chat-box .messages {
+    height: 120px;
+    overflow-y: auto;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.chat-box .chat-input {
+    display: flex;
+    margin-top: 10px;
+}
+
+.chat-box .chat-input input {
+    flex: 1;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.chat-box .chat-input button {
+    padding: 5px 10px;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #2196F3;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.chat-box .chat-input button:hover {
+    background-color: #0b7dda;
+}
+
+
+#button-area {
+    margin-top: 20px;
+}
+
+#button-area button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.promotion-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.promotion-button:hover {
+    background-color: #45a049;
+}

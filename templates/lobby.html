@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lobby</title>
+    <link rel="stylesheet" href="/css/lobby.css">
+    
+    <!-- SockJS와 STOMP 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <!-- CSRF 토큰 메타 태그 -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+<body>
+    <div class="lobby-container">
+        <!-- Left Section: User List & User Info -->
+        <aside class="left-section">
+            <div class="user-list">
+                <h3>Lobby Users</h3>
+                <ul id="userList">
+                    <li th:each="user : ${lobbyUsers}" th:text="${user.nickname}">User Nickname</li>
+                </ul>
+            </div>
+
+            <div class="user-info">
+    <h3>My Info</h3>
+    <p>Nickname: <span id="userNickname">Nickname Placeholder</span></p>
+    <p>Wins: <span id="userWins">0</span></p>
+    <p>Draws: <span id="userDraws">0</span></p>
+    <p>Losses: <span id="userLosses">0</span></p>
+    <p>Win Rate: <span id="userWinRate">0</span>%</p>
+    <!-- Logout 버튼 추가 -->
+    <div th:if="${isLoggedIn} or ${isGuest}">
+        <button id="logoutButton">Logout</button>
+    </div>
+</div>
+        </aside>
+
+        <!-- Main Area -->
+        <div class="main-area">
+            <!-- Main Section: Waiting Room -->
+            <main class="waiting-room">
+                <h2>Game Rooms</h2>
+                <div class="room-list" id="roomList">
+                    <!-- Game rooms will be listed here -->
+                </div>
+            </main>
+
+            <!-- Partition Bar -->
+            <div class="partition-bar">
+                <button id="createRoomButton" class="partition-button">방 생성</button>
+                <button id="findRoomButton" class="partition-button">방 찾기</button>
+                <button id="refreshButton" class="partition-button">새로고침</button>
+            </div>
+
+            <!-- Chat Section -->
+            <section class="chat-section">
+                <div class="chat-box">
+                    <h3>Lobby Chat</h3>
+                    <div class="messages" id="chatMessages">
+                        <!-- Chat messages will appear here -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Enter your message..." />
+                        <button id="sendButton">Send</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- 방 생성 모달 추가 -->
+    <div id="createRoomModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>방 생성</h2>
+        <form id="createRoomForm">
+          <label for="roomName">방 이름:</label>
+          <input type="text" id="roomName" name="roomName" required><br>
+
+          <label for="maxPlayers">최대 인원 (최대 6명):</label>
+          <input type="number" id="maxPlayers" name="maxPlayers" min="2" max="6" value="2" required><br>
+
+          <label for="password">비밀번호 (비밀방인 경우):</label>
+          <input type="password" id="password" name="password">
+
+          <button type="submit">생성</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Inject nickname into JavaScript -->
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    window.appData = {
+        nickname: /*[[${nickname}]]*/ 'anonymous'
+    };
+    /*]]>*/
+    </script>
+
+    <!-- Include your lobby.js file -->
+    <script src="/js/lobby.js"></script>
+
+</body>
+</html>

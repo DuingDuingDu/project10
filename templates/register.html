@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register / Guest Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .form-container {
+            margin: 50px auto;
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+
+            if (mode === 'guest') {
+                document.getElementById('register-section').style.display = 'none';
+                document.getElementById('guest-section').style.display = 'block';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const showLoginModal = /*[[${showLoginModal}]]*/ false;
+            const showRegisterModal = /*[[${showRegisterModal}]]*/ false;
+
+            if (showLoginModal) {
+                openModal('login');
+            }
+
+            if (showRegisterModal) {
+                openModal('register');
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1 id="header-title">회원가입 / 닉네임 설정</h1>
+    <div class="form-container">
+        <!-- 회원가입 폼 -->
+        <div id="register-section">
+            <form action="/register" method="POST">
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" required><br><br>
+                <label for="nickname">Nickname:</label><br>
+                <input type="text" id="nickname" name="nickname" required><br><br>
+                <button type="submit">회원가입하기</button>
+            </form>
+        </div>
+
+        <!-- 비회원 닉네임 설정 폼 -->
+        <form action="/guest" method="post">
+    <label for="nickname">Nickname:</label>
+    <input type="text" id="nickname" name="nickname" required>
+    <button type="submit">Enter as Guest</button>
+</form>
+
+        </div>
+    </div>
+</body>
+</html>

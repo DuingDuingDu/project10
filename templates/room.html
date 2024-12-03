@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>체커 게임 룸</title>
+    <link rel="stylesheet" href="/css/room.css">
+
+    <!-- Phaser, Konva, SockJS, STOMP 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/konva/konva.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+<body>
+  <!-- 왼쪽 플레이어 영역 -->
+<div id="left-player-area" class="player-area">
+    <h2 id="left-player-title">내 정보</h2>
+    <div class="player-info">
+        <h3>Player Info</h3>
+        <div>Nickname: <span id="leftPlayerNickname"></span></div>
+        <div>Wins: <span id="leftPlayerWins">0</span></div>
+        <div>Draws: <span id="leftPlayerDraws">0</span></div>
+        <div>Losses: <span id="leftPlayerLosses">0</span></div>
+        <div>Win Rate: <span id="leftPlayerWinRate">0</span>%</div>
+    </div>
+
+    <div id="button-area">
+      <button id="leave-room-button" class="game-button">방 나가기</button>
+<button id="ready-button" class="game-button">Ready</button>
+<button id="start-button" class="game-button" style="display: none;">Start</button>
+    </div>
+</div>
+
+<!-- 중앙 게임 영역 -->
+<div id="game-area">
+    <div id="game-board">
+        <div id="konva-stage"></div>
+    </div>
+
+    <div id="chatbox">
+        <div id="messages"></div>
+        <div class="chat-input">
+           <input type="text" id="chat-input" placeholder="메시지를 입력하세요">
+<button id="send-button">전송</button>
+        </div>
+    </div>
+</div>
+
+<!-- 오른쪽 플레이어 영역 -->
+<div id="right-player-area" class="player-area">
+    <h2 id="right-player-title">상대방 정보</h2>
+    <div class="player-info">
+        <h3>Player Info</h3>
+        <div>Nickname: <span id="rightPlayerNickname"></span></div>
+        <div>Wins: <span id="rightPlayerWins">0</span></div>
+        <div>Draws: <span id="rightPlayerDraws">0</span></div>
+        <div>Losses: <span id="rightPlayerLosses">0</span></div>
+        <div>Win Rate: <span id="rightPlayerWinRate">0</span>%</div>
+    </div>
+
+    <!-- Observer승격 버튼 영역 -->
+    <div id="promotion-area" style="display: none;">
+        <button id="promote-to-player2-btn" class="promotion-button">
+            Player2로 참가하기
+        </button>
+    </div>
+
+    <!-- Observer 목록 -->
+    <div id="observer-list" style="display: none;">
+        <h3>Observers</h3>
+        <div id="observers"></div>
+    </div>
+</div>
+
+
+    <!-- Observer일 때만 보이는 승격 버튼 영역 -->
+    <div id="promotion-area" style="display: none;">
+        <button id="promote-to-player2-btn" class="promotion-button">Player2로 참가하기</button>
+    </div>
+
+    <!-- Observer 목록 (관전자일 때만 표시) -->
+    <div id="observer-list" style="display: none;">
+        <h3>Observers</h3>
+        <div id="observers"></div>
+    </div>
+</div>
+    <!-- 글로벌 변수 정의: Thymeleaf로 실제 값 주입 -->
+    <!-- Original problematic code -->
+<!-- <script th:inline="javascript">
+    window.appData = {
+        roomId: [[${roomId}]],
+        user: [[${user}]],
+        userRole: [[${userRole}]],
+        isHost: [[${isHost}]],
+        roomState: [[${roomState}]]
+    };
+</script> -->
+
+<!-- Corrected code -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+    window.appData = /*[[${appData}]]*/ {
+        roomId: null,
+        user: null,
+        userRole: null,
+        isHost: false,
+        roomState: null
+    };
+/*]]>*/
+</script>
+
+    <!-- room.js 파일 포함 -->
+    <script src="/js/room.js"></script>
+</body>
+</html>
